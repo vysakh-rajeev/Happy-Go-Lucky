@@ -3,253 +3,181 @@ import { Col, Container, Button, Form, FormGroup, Input, Label, Row } from "reac
 import './App.css';
 import UserService from './services/UserService';
 
-const intialState = {
-    fName:'',
-    lName:'',
-    email:'',
-    password:'',
-    fNameError:'',
-    lNameError:'',
-    emailError:'',
-    passwordError:''
-};
-
-export default class Register extends React.Component{
-    
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            fName:'',
-            lName:'',
-            email:'',
-            password:'',
-            fNameError:'',
-            lNameError:'',
-            emailError:'',
-            passwordError:'',
-            users: []
-        };
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    componentDidMount(){
-        UserService.getUsers().then(res=>{
-            this.setState({ users: res.data });
-        });
-    }
-
-    handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value});
-        this.validate();
-    }
-
-    validate = () => {
-        let fNameError = "";
-        let lNameError = "";
-        let emailError = "";        
-        let passwordError = "";
-                
-
-        if(this.state.fName)
-        {
-            if(this.state.fName.length > 15 || this.state.fName.length < 3)
-            {
-                fNameError="Name Length: 3-15 characters";
-                document.getElementById("firstName").setAttribute('style','border-color:red; border-width:3.5px;');
-            }
-            else
-            {
-                this.setState({fNameError:''});              
-                document.getElementById("firstName").setAttribute('style','border-color:lightgray; border-width:0.5px;');
-            }
-        }
-
-        if(this.state.lName)
-        {
-            if (this.state.lName.length > 15 || this.state.lName.length < 3)
-            {
-                lNameError="Name Length: 3-15 characters";
-                document.getElementById("lastName").setAttribute('style','border-color:red; border-width:3.5px;');
-            }
-            else
-            {
-                this.setState({lNameError:''});
-                document.getElementById("lastName").setAttribute('style','border-color:lightgray; border-width:0.5px;');
-            }
-        }
-
-        if(this.state.email)
-        {
-            var emailFormat = new RegExp(/^[^0-9\ \-\_\.\<\>\(\)\[\]\;\:\,\~\!\#\$\%\^\&\*\?\,\`\\]+[a-zA-Z0-9\.\-\_]+@[a-zA-Z0-9\.\-\_]+\.[A-Za-z]+$/);
-            
-            if (!emailFormat.test(this.state.email)) 
-            {
-                emailError="Wrong Mail format";
-                document.getElementById("email").setAttribute('style','border-color:red; border-width:3.5px;');
-            }
-            else
-            {
-                this.setState({emailError:''});
-                document.getElementById("email").setAttribute('style','border-color:lightgray; border-width:0.5px;');
-            }
-        }
-
-        if(this.state.password)
-        {
-            var symbols = new RegExp(/[^A-Z a-z0-9]/);
-            var caps = new RegExp(/[A-Z]/);
-
-            if(this.state.password.length > 15 || this.state.password.length < 8)
-            {
-                passwordError="Password Length: 8-15 characters";
-                document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
-            }
-            else if(!symbols.test(this.state.password))
-            {
-                passwordError="Enter at least 1 Special Character";
-                document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
-            }
-            else if(!caps.test(this.state.password))
-            {
-                passwordError="Enter at least 1 Capital Letter";
-                document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
-            }
-            else
-            {
-                this.setState({passwordError:''});
-                document.getElementById("password").setAttribute('style','border-color:lightgray; border-width:0.5px;');
-            }
-        }
-        
-        if(emailError || fNameError || lNameError || passwordError){
-            this.setState({emailError, fNameError, lNameError, passwordError});
-            return false;
-        }
-
-        return true;
+class DemoForm extends React.Component {
+    constructor() {
+    super();
+    this.state = {
+      input: {},
+      errors: {}
     };
-
-    validate2 = () => {
-        
-        let fNameError = this.state.fNameError;
-        let lNameError = this.state.lNameError;
-        let emailError = this.state.emailError;        
-        let passwordError = this.state.passwordError;
-
-        if(this.state.fName=='' || this.state.fName==null)
-        {
-            fNameError="Please Fill in necessary details";
-            document.getElementById("firstName").setAttribute('style','border-color:red; border-width:3.5px;');
-        }
-        if(this.state.lName=='' || this.state.lName==null)
-        {
-            lNameError="Please Fill in necessary details";
-            document.getElementById("lastName").setAttribute('style','border-color:red; border-width:3.5px;');
-        }
-        if(this.state.email=='' || this.state.email==null)
-        {
-            emailError="Please Fill in necessary details";
-            document.getElementById("email").setAttribute('style','border-color:red; border-width:3.5px;');
-        }
-        if(this.state.password=='' || this.state.password==null)
-        {
-            passwordError="Please Fill in necessary details";
-            document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
-        }
-
-        if(emailError || fNameError || lNameError || passwordError){
-            this.setState({emailError, fNameError, lNameError, passwordError});
-            return false;
-        }
-
-        return true;
-    };
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        const isValid = this.validate();
-        const isValid2 = this.validate2();
-        if(isValid && isValid2)
-        {   
-            let flag=0;
-
-            this.state.users.map( user=>{
-                
-                if(this.state.fName===user.firstName && this.state.lName===user.lastName && this.state.email===user.emailId)
-                {
-                    alert("User already exists. Login below.");
-                    flag=1;
-                }
-                if(this.state.email===user.emailId)
-                {
-                    alert("The entered email ID already exists.");
-                    flag=1;
-                }
-            });
-            
-            if(flag==0)
-            {                
-                let user = {firstName: this.state.fName, lastName: this.state.lName, emailId: this.state.email, password: this.state.password};
-
-                UserService.addUser(user).then(res => {
-                    this.props.history.push('/my-events');
-                });
-            }
-        }
+     
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+     
+  handleChange(event) {
+    let input = this.state.input;
+    input[event.target.name] = event.target.value;
+  
+    this.setState({
+      input
+    });
+  }
+     
+  handleSubmit(event) {
+    event.preventDefault();
+  
+    if(this.validate()){
+        console.log(this.state);
+  
+        let input = {};
+        input["Firstname"] = "";
+        input["email"] = "";
+        input["password"] = "";
+        input["confirm_password"] = "";
+        this.setState({input:input});
+  
+        alert('Demo Form is submitted');
     }
-
-    render(){
+  }
+  
+  validate(){
+      let input = this.state.input;
+      let errors = {};
+      let isValid = true;
+   
+      if (!input["Firstname"]) {
+        isValid = false;
+        errors["Firstname"] = "Please enter your Firstname.";
+      }
+  
+      if (typeof input["Firstname"] !== "undefined") {
+        const re = /^\S*$/;
+        if(input["Firstname"].length < 6 || !re.test(input["Firstname"])){
+            isValid = false;
+            errors["Firstname"] = "Please enter valid username.";
+        }
+      }
+      if (!input["Lastname"]) {
+        isValid = false;
+        errors["Lastname"] = "Please enter your Lastname.";
+      }
+  
+      if (typeof input["Lastname"] !== "undefined") {
+        const re = /^\S*$/;
+        if(input["Lastname"].length < 6 || !re.test(input["Lastname"])){
+            isValid = false;
+            errors["Lastname"] = "Please enter valid username.";
+        }
+      }
+      if (!input["email"]) {
+        isValid = false;
+        errors["email"] = "Please enter your email Address.";
+      }
+  
+      if (typeof input["email"] !== "undefined") {
+          
+        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        if (!pattern.test(input["email"])) {
+          isValid = false;
+          errors["email"] = "Please enter valid email address.";
+        }
+      }
+  
+      if (!input["password"]) {
+        isValid = false;
+        errors["password"] = "Please enter your password.";
+      }
+     
+  
+      if (typeof input["password"] !== "undefined") {
+        if(input["password"].length < 6){
+            isValid = false;
+            errors["password"] = "Please add at least 6 charachter.";
+        }
+      }
         
-        return(
-            <div className="aligns">
-            
-                <Container style={{marginTop: "5em"}}>
-                    <Form onSubmit={this.handleSubmit} >
-                        <FormGroup>
-                            <Row style={{justifyContent:"center", padding:"1em"}}>
-                            <Col sm="3" >
-                                <Label for="firstName">First Name</Label>
-                                <Input type="text" name="fName" id="firstName" name={"fName"} onChange={this.handleChange} value={this.state.fName} />
-                                <div style={{color:"red"}}>{this.state.fNameError}</div>
-                            </Col>
-                            <Col sm="3" >
-                                <Label for="lastName">Last Name</Label>
-                                <Input type="text" name="lName" id="lastName" name={"lName"} onChange={this.handleChange} value={this.state.lName} />
-                                <div style={{color:"red"}}>{this.state.lNameError}</div>
-                            </Col>
-                            </Row>
-                            <Row style={{justifyContent:"center", padding:"1em"}}>
-                            <Col sm="3" >
-                                <Label for="email">Email</Label>
-                                <Input type="text" name="email" id="email" name={"email"} onChange={this.handleChange} value={this.state.email} />
-                                <div style={{color:"red"}}>{this.state.emailError}</div>
-                            </Col>
-                            <Col sm="3" >
-                                <Label for="password">Password</Label>
-                                <Input type="text" name="password" id="password" name={"password"} onChange={this.handleChange} value={this.state.password} />
-                                <div style={{color:"red"}}>{this.state.passwordError}</div>
-                            </Col>
-                            </Row>
-                            <Row style={{justifyContent:"center", padding:"1em"}}>
-                                <Col sm="3" >
-                                    <Button>Register</Button>
-                                </Col>
-                            </Row>
-                            <Row style={{justifyContent:"center"}}>
-                                <Col sm="3" >
-                                    <a href="http://localhost:3000/login" className="link" style={{fontSize: "1.25rem"}}>Login</a>
-                                </Col>
-                            </Row>
-                        </FormGroup>
-                    </Form>
-                </Container>
+  
+      this.setState({
+        errors: errors
+      });
+  
+      return isValid;
+  }
+     
+  render() {
+    return (<div style={{
+      margin: 'auto',
+      marginLeft: '500px',
+      display: "flex",
+         }}>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+  
+          <div class="form-group">
+            <label for="Firstname">Firstname:</label>
+            <input 
+              type="text" 
+              name="Firstname" 
+              value={this.state.input.username}
+              onChange={this.handleChange}
+              class="form-control" 
+              placeholder="Enter Firstname" 
+              id="Firstname" />
+  
+              <div className="text-danger">{this.state.errors.username}</div>
+          </div>
 
-
-               
-                </div>
-        ); 
-    }
+          <div class="form-group">
+            <label for="Lastname">Lastname:</label>
+            <input 
+              type="text" 
+              name="Lastname" 
+              value={this.state.input.username}
+              onChange={this.handleChange}
+              class="form-control" 
+              placeholder="Enter Firstname" 
+              id="Lastname" />
+  
+              <div className="text-danger">{this.state.errors.username}</div>
+          </div>
+  
+          <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input 
+              type="text" 
+              name="email" 
+              value={this.state.input.email}
+              onChange={this.handleChange}
+              class="form-control" 
+              placeholder="Enter email" 
+              id="email" />
+  
+              <div className="text-danger">{this.state.errors.email}</div>
+          </div>
+  
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input 
+              type="password" 
+              name="password" 
+              value={this.state.input.password}
+              onChange={this.handleChange}
+              class="form-control" 
+              placeholder="Enter password" 
+              id="password" />
+  
+              <div className="text-danger">{this.state.errors.password}</div>
+          </div>
+  
+                      
+          <input type="Submit" value="Register" class="btn btn-success" />
+          <span>  <a href="http://localhost:3000/login" className="link" style={{fontSize: "1.25rem"}}>Login</a></span>
+        </form>
+      </div>
+      </div>
+    );
+  }
 }
+  
+export default DemoForm;
