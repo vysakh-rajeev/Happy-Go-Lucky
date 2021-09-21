@@ -3,7 +3,6 @@ import { Col, Container, Button, Form, FormGroup, Input, Label, Row } from "reac
 import './App.css';
 import UserService from './services/UserService';
 import img1 from'../src/image.jpg';
-// import img2 from'../src/images/image1.jpg';
 import './card.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -138,31 +137,31 @@ export default class Home extends React.Component{
                 
                
 
-                <Container style={{marginTop: "2em"}}>
-                <Form onSubmit={this.handleSubmit} >
-                        <FormGroup>
-                            <Row style={{justifyContent:"center", padding:"1em"}}>
-                                <Col sm="3">
-                                    <Label for="email">Email</Label>
-                                    <Input type="text" name="email" id="email" name={"email"} onChange={this.handleChange} value={this.state.email} />
-                                    <div style={{color:"red"}}>{this.state.emailError}</div>
-                                </Col>
-                                <Col sm="3">
-                                    <Label for="password">Password</Label>
-                                    <Input type="text" name="password" id="password" name={"password"} onChange={this.handleChange} value={this.state.password} />
-                                    <div style={{color:"red"}}>{this.state.passwordError}</div>
-                                </Col>
-                                <Col sm="2">
-                                    <Button style={{ display : "flex",justifyContent: "absolute", marginTop:27}} >Login</Button>
-                                </Col>
-                            </Row>
-                        </FormGroup>
-                    </Form>
-                </Container>
+   <Container style={{marginTop: "2em"}}>
+        <Form onSubmit={this.handleSubmit} >
+              <FormGroup>
+            <Row style={{justifyContent:"center", padding:"1em"}}>
+                   <Col sm="3">
+                         <Label for="email">Email</Label>
+                        <Input type="text" name="email" id="email" name={"email"} onChange={this.handleChange} value={this.state.email} />
+                         <div style={{color:"red"}}>{this.state.emailError}</div>
+                         </Col>
+                            <Col sm="3">
+                              <Label for="password">Password</Label>
+                           <Input type="text" name="password" id="password" name={"password"} onChange={this.handleChange} value={this.state.password} />
+                             <div style={{color:"red"}}>{this.state.passwordError}</div>
+                          </Col>
+                         <Col sm="2">
+                      <Button style={{ display : "flex",justifyContent: "absolute", marginTop:27}} >Login</Button>
+                       </Col>
+                    </Row>
+              </FormGroup>
+         </Form>
+    </Container>
 
                 <br></br>
                 <p style={{fontSize: "2rem"}}>Check out the following public events happening around you!</p>
-                <p style={{fontSize: "2rem"}}>Login to view more! <a href="http://localhost:3000/sign-up" className="link" style={{fontSize: "1.5rem"}}> Or Sign Up here</a></p>
+                <p style={{fontSize: "2rem"}}>Login to view more! <a href="http://localhost:3000/signup" className="link" style={{fontSize: "1.5rem"}}> Or Sign Up here</a></p>
                 <div className='card text-center'>
                 <div className='overflow'>
                     <img src={img1} alt="Image 1" className='card-img-top' />
