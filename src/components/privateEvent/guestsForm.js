@@ -12,7 +12,7 @@ const SearchPage = () => {
           <Button color="grey" size="sm" >add</Button>{' '}
           <Button color="grey" size="sm" >Save & Proceed</Button>
         </form>
-      </MDBol>
+      </MDBCol>
       
     );
   }
