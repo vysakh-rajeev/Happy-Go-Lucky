@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/v1/users";
+//const BASE_URL = "http://localhost:8080/api/v1/users";
 //const BASE_URL = "https://89c0-202-164-138-131.in.ngrok.io/api/v1/users";
 
 class UserService {
