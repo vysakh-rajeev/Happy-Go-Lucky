@@ -19,7 +19,7 @@ import {
 import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
-import Register from './Signup';
+import DemoForm from './Signup';
 
 function App() {
   return (
@@ -37,7 +37,8 @@ function App() {
         <Route path="/EventHistory" component={EventHistory} />
         <Route path="/PrivateEvent" component={PrivateEvent} />
         <Route path="/PublicEvent" component={PublicEvent} />
-        <Route path="/sign-up" component={Register} />
+        <Route path="/signup" component={DemoForm} />
+        <Route path="*" component={MyEvent} />
       </Switch>
     </div>
     </Router>
