@@ -1,43 +1,52 @@
-import React from 'react';
-import { Route, Switch} from 'react-router';
-//import DBTesting from './components/DBTesting';
-import Register from './component/Signup';
-import Home from './component/Homepage';
-import { BrowserRouter } from 'react-router-dom';
-import { Container } from 'reactstrap';
-import Login from './component/Login';
-//import SideBar from './components/SideBar';
-import MyProfile from './component/MyProfile';
-import MenuListComposition from './component/Menulist';
-import EventHistory from './component/EventHistory';
-import AddButton from './component/PlusButton';
-import ExploreEvent from './component/ExploreEvent';
+import logo from './logo.svg';
+import './App.css';
+import MenuListComposition from './Menulist';
+import MyEvent from './MyEvent';
+import MyProfile from './MyProfile';
+import ExploreEvent from './ExploreEvent';
+import EventHistory from './EventHistory';
+import AddButton from './PlusButton';
+import PrivateEvent from './PrivateEvent';
+import PublicEvent from './PublicEvent';
+import Homepage from './Homepage';
+import login from './components/Login';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import '@fortawesome/fontawesome-free/css/fontawesome.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+import Register from './Signup';
 
-class App extends React.Component{
-
-  render(){
-    return (
-        <div>
-          <h1 style={{fontSize: "3rem", display : "flex",justifyContent: "center",
-            alignItems: "center"}}>Happy Go Lucky</h1>
-          <BrowserRouter>
-              <Switch>
-                <Route path="/" exact component={Home}></Route>
-                <MenuListComposition/>
-                <AddButton/>
-                <Route path="/Menulist" exact component={MenuListComposition}></Route>
-                <Route path="/sign-up" exact component={Register}></Route>
-                <Route path="/login" exact component={Login}></Route>
-                <Route path="/MyProfile" exact component={MyProfile}></Route>
-                <Route path="/EventHistory" exact component={EventHistory}></Route>
-                <Route path="/Menulist" exact component={MenuListComposition}></Route>
-                <Route path="/ExploreEvent" exact component={ExploreEvent}></Route>
-
-              </Switch>      
-          </BrowserRouter>
-        </div>
-    );
-  }
+function App() {
+  return (
+    <Router>
+    <div className="App">
+      <h1>Happy Go Lucky</h1>
+       <AddButton/>
+      <Switch> 
+        <Route path="/" exact component={Homepage}></Route>
+        <Route path="/MyProfile" component={MyProfile} />
+        <Route path="/Menulist" component={MenuListComposition} />
+        <Route path="/login" exact component={login}></Route>
+        <Route path="/MyEvent" component={MyEvent} />
+        <Route path="/ExploreEvent" component={ExploreEvent} />
+        <Route path="/EventHistory" component={EventHistory} />
+        <Route path="/PrivateEvent" component={PrivateEvent} />
+        <Route path="/PublicEvent" component={PublicEvent} />
+        <Route path="/sign-up" component={Register} />
+      </Switch>
+    </div>
+    </Router>
+  );
 }
+
+
+
+
+
 
 export default App;
