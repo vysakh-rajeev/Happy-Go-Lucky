@@ -1,10 +1,8 @@
 import React from "react";
 import { Col, Container, Button, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import './App.css';
-import EventCard from "./EventCard";
 import UserService from '../services/UserService';
 
-export default class Home extends React.Component{
+export default class Login extends React.Component{
     
     constructor(props) {
         super(props)
@@ -14,8 +12,7 @@ export default class Home extends React.Component{
             password:'',
             emailError:'',
             passwordError:'',
-            users: [],
-            events: []
+            users: []
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,14 +21,8 @@ export default class Home extends React.Component{
 
     componentDidMount(){
         UserService.getUsers().then(res=>{
-            this.setState({ users: res.data });            
+            this.setState({ users: res.data });
         });
-
-        UserService.getEvents().then(res=>{
-            this.setState({ events: res.data });
-
-        });
-
     }
 
     handleChange = (event) => {
@@ -156,44 +147,42 @@ export default class Home extends React.Component{
         
         return(
             <div className="aligns">
-            
+                
+                <h1 style={{fontSize: "3rem"}}>Happy Go Lucky</h1>
 
-                <Container style={{marginTop: "2em"}}>
-                <Form onSubmit={this.handleSubmit} >
+                <Container style={{marginTop: "5em"}}>
+                    <Form onSubmit={this.handleSubmit} >
                         <FormGroup>
                             <Row style={{justifyContent:"center", padding:"1em"}}>
-                                <Col sm="3">
-                                    <Label for="email">Email</Label>
-                                    <Input type="text" name="email" id="email" name={"email"} onChange={this.handleChange} value={this.state.email} />
-                                    <div style={{color:"red"}}>{this.state.emailError}</div>
+                            <Col sm="3" >
+                                <Label for="email">Email</Label>
+                                <Input type="text" name="email" id="email" name={"email"} onChange={this.handleChange} value={this.state.email} />
+                                <div style={{color:"red"}}>{this.state.emailError}</div>
+                            </Col></Row>
+                            <Row  style={{justifyContent:"center", padding:"1em"}}>
+                            <Col sm="3" >
+                                <Label for="password">Password</Label>
+                                <Input type="text" name="password" id="password" name={"password"} onChange={this.handleChange} value={this.state.password} />
+                                <div style={{color:"red"}}>{this.state.passwordError}</div>
+                            </Col></Row>
+                            
+                            <Row style={{justifyContent:"center", padding:"1em"}}>
+                                <Col sm="3" >
+                                    <Button>Login</Button>
                                 </Col>
-                                <Col sm="3">
-                                    <Label for="password">Password</Label>
-                                    <Input type="text" name="password" id="password" name={"password"} onChange={this.handleChange} value={this.state.password} />
-                                    <div style={{color:"red"}}>{this.state.passwordError}</div>
-                                </Col>
-                                <Col sm="1">
-                                    <Button style={{marginTop: "1.5em"}} >Login</Button>
+                            </Row>
+                            <Row style={{justifyContent:"center"}}>
+                                <Col sm="3" >
+                                    <a href="http://localhost:3000/sign-up" className="link" style={{fontSize: "1.25rem"}}>Register</a>
                                 </Col>
                             </Row>
                         </FormGroup>
                     </Form>
                 </Container>
 
-                <br></br>
-                <p style={{fontSize: "2rem"}}>Check out the following public events happening around you!</p>
-                <p style={{fontSize: "2rem"}}>Login to view more! <a href="http://localhost:3000/sign-up" className="link" style={{fontSize: "1.5rem"}}> Or Sign Up here</a></p>
+
                
-                <div className="flexs">
-                {
-                    this.state.events.reverse().slice(0,3).map( event=>(
-                        <div style={{marginLeft: "2em"}}>
-                            <EventCard id={event.eventid} name={event.eventName} venue={event.eventVenue} date={event.eventDate} time={event.eventTime} ticketsLeft={event.eventTicketsLeft} />
-                        </div>
-                    ))
-                }
                 </div>
-            </div>
         ); 
     }
 }

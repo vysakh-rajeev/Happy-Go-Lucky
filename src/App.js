@@ -1,26 +1,38 @@
 import React from 'react';
 import { Route, Switch} from 'react-router';
 //import DBTesting from './components/DBTesting';
-import Register from './components/Register';
-import Home from './components/Homepage';
+import Register from './component/Signup';
+import Home from './component/Homepage';
 import { BrowserRouter } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import Login from './components/Login';
+import Login from './component/Login';
 //import SideBar from './components/SideBar';
-import MyProfile from './components/MyProfile';
+import MyProfile from './component/MyProfile';
+import MenuListComposition from './component/Menulist';
+import EventHistory from './component/EventHistory';
+import AddButton from './component/PlusButton';
+import ExploreEvent from './component/ExploreEvent';
 
 class App extends React.Component{
 
   render(){
     return (
         <div>
+          <h1 style={{fontSize: "3rem", display : "flex",justifyContent: "center",
+            alignItems: "center"}}>Happy Go Lucky</h1>
           <BrowserRouter>
               <Switch>
                 <Route path="/" exact component={Home}></Route>
-                <Route path="/sign-up" component={Register}></Route>
-                <Route path="/login" component={Login}></Route>
-                {  /*<Route path="/my-events" component={SideBar}></Route>*/  }       {  /* NOT USEFUL FOR NOW*/  }
-                <Route path="/my-profile/:id" component={MyProfile}></Route>
+                <MenuListComposition/>
+                <AddButton/>
+                <Route path="/Menulist" exact component={MenuListComposition}></Route>
+                <Route path="/sign-up" exact component={Register}></Route>
+                <Route path="/login" exact component={Login}></Route>
+                <Route path="/MyProfile" exact component={MyProfile}></Route>
+                <Route path="/EventHistory" exact component={EventHistory}></Route>
+                <Route path="/Menulist" exact component={MenuListComposition}></Route>
+                <Route path="/ExploreEvent" exact component={ExploreEvent}></Route>
+
               </Switch>      
           </BrowserRouter>
         </div>

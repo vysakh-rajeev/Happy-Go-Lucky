@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Container, Button, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import './App.css';
-import EventCard from "./EventCard";
+import '../App.css';
+//import EventCard from "./EventCard";
 import UserService from '../services/UserService';
 
 export default class Home extends React.Component{
@@ -29,6 +29,9 @@ export default class Home extends React.Component{
 
         UserService.getEvents().then(res=>{
             this.setState({ events: res.data });
+
+            //console.log(this.state.events);
+            //console.log(this.state.events[1].eventName, this.state.events[0].eventDate, this.state.events[0].eventTime, this.state.events[1].eventVenue);
 
         });
 
@@ -120,44 +123,13 @@ export default class Home extends React.Component{
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const isValid = this.validate();
-        const isValid2 = this.validate2();
-        if(isValid && isValid2)
-        {   
-            let flag=0;
-
-            this.state.users.map( user=>{
-                
-                if(this.state.email===user.emailId)
-                {
-                    flag=1;
-                    if(this.state.password===user.password)
-                    {
-                        flag=2;
-                        let id = user.id;
-                        alert("Login Successful of user with id = "+id)
-                        this.props.history.push(`/my-profile/${id}`);
-                    }
-                }
-            });
-            
-            if(flag==0)
-            {                
-                alert("No user exists with the email ID. Register below.");                
-            }
-            if(flag==1)
-            {
-                alert("Wrong password entered. Re-enter password below.")
-            }
-        }
+        this.props.history.push(`/Menulist`);
     }
 
     render(){
         
         return(
             <div className="aligns">
-            
-
                 <Container style={{marginTop: "2em"}}>
                 <Form onSubmit={this.handleSubmit} >
                         <FormGroup>
@@ -188,7 +160,6 @@ export default class Home extends React.Component{
                 {
                     this.state.events.reverse().slice(0,3).map( event=>(
                         <div style={{marginLeft: "2em"}}>
-                            <EventCard id={event.eventid} name={event.eventName} venue={event.eventVenue} date={event.eventDate} time={event.eventTime} ticketsLeft={event.eventTicketsLeft} />
                         </div>
                     ))
                 }
