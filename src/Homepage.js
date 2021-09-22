@@ -24,21 +24,6 @@ export default class Home extends React.Component{
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount(){
-        UserService.getUsers().then(res=>{
-            this.setState({ users: res.data });            
-        });
-
-        UserService.getEvents().then(res=>{
-            this.setState({ events: res.data });
-
-            //console.log(this.state.events);
-            //console.log(this.state.events[1].eventName, this.state.events[0].eventDate, this.state.events[0].eventTime, this.state.events[1].eventVenue);
-
-        });
-
-    }
-
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value});
         this.validate();
@@ -54,7 +39,7 @@ export default class Home extends React.Component{
             
             if (!emailFormat.test(this.state.email)) 
             {
-                emailError="Wrong Mail format";
+                emailError="Invalid Mail format, Please Enter a valid mail ID";
                 document.getElementById("email").setAttribute('style','border-color:red; border-width:3.5px;');
             }
             else
@@ -71,17 +56,17 @@ export default class Home extends React.Component{
 
             if(this.state.password.length > 15 || this.state.password.length < 8)
             {
-                passwordError="Password Length: 8-15 characters";
+                passwordError="Password should be atleast 8 characters";
                 document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
             }
             else if(!symbols.test(this.state.password))
             {
-                passwordError="Enter at least 1 Special Character";
+                passwordError="Please enter atleast one Special Character";
                 document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
             }
             else if(!caps.test(this.state.password))
             {
-                passwordError="Enter at least 1 Capital Letter";
+                passwordError="Please enter atleast one Uppercase character;
                 document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
             }
             else
@@ -106,12 +91,12 @@ export default class Home extends React.Component{
 
         if(this.state.email=='' || this.state.email==null)
         {
-            emailError="Cannot be blank";
+            emailError="Fields cannot be empty";
             document.getElementById("email").setAttribute('style','border-color:red; border-width:3.5px;');
         }
         if(this.state.password=='' || this.state.password==null)
         {
-            passwordError="Cannot be blank";
+            passwordError="Fields cannot be empty";
             document.getElementById("password").setAttribute('style','border-color:red; border-width:3.5px;');
         }
 
@@ -125,9 +110,7 @@ export default class Home extends React.Component{
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.history.push(`/Menulist`);
-        
-        
+        this.props.history.push(`/Menulist`);        
     }
 
     render(){
@@ -135,9 +118,7 @@ export default class Home extends React.Component{
         return(
             <div className="aligns">
                 
-               
-
-   <Container style={{marginTop: "2em"}}>
+       <Container style={{marginTop: "2em"}}>
         <Form onSubmit={this.handleSubmit} >
               <FormGroup>
             <Row style={{justifyContent:"center", padding:"1em"}}>
@@ -160,8 +141,7 @@ export default class Home extends React.Component{
     </Container>
 
                 <br></br>
-                <p style={{fontSize: "2rem"}}>Check out the following public events happening around you!</p>
-                <p style={{fontSize: "2rem"}}>Login to view more! <a href="http://localhost:3000/signup" className="link" style={{fontSize: "1.5rem"}}> Or Sign Up here</a></p>
+                <p style={{fontSize: "2rem"}}>Check out the following public events happening around you! Login to view more! <a href="http://localhost:3000/signup" className="link" style={{fontSize: "1.5rem"}}> Or Sign Up here</a></p>
                 <div className='card text-center'>
                 <div className='overflow'>
                     <img src={img1} alt="Image 1" className='card-img-top' />
